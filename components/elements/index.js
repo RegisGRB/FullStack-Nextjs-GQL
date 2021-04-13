@@ -1,4 +1,4 @@
-import GRID from "./GRID";
+import GRID from "./Grid";
 import GRIDCard from "./GRIDCard";
 import {Flex ,FlexLeft,FlexRight} from "./Flex";
 import Button from "./Button";
