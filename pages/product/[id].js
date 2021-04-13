@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import Cookies from "universal-cookie";
 import { useAuth } from "../../context/AuthContext";
 const product = () => {
-  const { Cart, AddCart } = useAuth();
+  const { Cart, AddCart,Togglewishlist,wishlist,deletewishlist } = useAuth();
   const [GetProduct, { loading, data, error }] = useLazyQuery(
     Product.default.Product
   );
@@ -27,12 +27,12 @@ const product = () => {
     if (id && !data) {
       getProduct();
     }
+    console.log(wishlist)
   }, [id]);
-
   //   getProduct(id);
   return (
     <elements.Container>
-      <elements.Title>{data?.product?.Title}</elements.Title>
+      <elements.Title onClick={()=>deletewishlist()}>{data?.product?.Title}</elements.Title>
       <elements.Flex>
         <elements.Box>
           <elements.GRID>
@@ -52,9 +52,14 @@ const product = () => {
             <elements.Title>{data?.product?.Price}€</elements.Title>
           </elements.FlexRight>
           <elements.FlexRight>
+            <div>
             <elements.Button onClick={() => AddCart(data)}>
               Add To Cart
             </elements.Button>
+            <elements.Button onClick={() => Togglewishlist(data?.product?.id)} red={wishlist.includes(data?.product?.id)}>
+             wishlist
+            </elements.Button>
+            </div>
           </elements.FlexRight>
         </elements.Box>
       </elements.Flex>

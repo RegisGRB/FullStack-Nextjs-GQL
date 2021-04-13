@@ -7,6 +7,7 @@ import { useAuth } from "../../../context/AuthContext";
 import Notification from "../Notification/Notification";
 import * as element from "../../elements";
 import { loadStripe } from "@stripe/stripe-js";
+import db from "../../../config/db.config"
 import axios from 'axios'
 import {
   CardElement,
@@ -58,7 +59,7 @@ const CheckoutForm = ({ CloseAction, controller, Price,cart }) => {
     const cardElement = elements.getElement(CardElement);
 
       const paymentIntent = await axios.post(
-        "http://localhost:3033/create-payment-intent",
+        `${process.env.NEXT_PUBLIC_GAID}/create-payment-intent`,
         {
           Price: Price,
           receipt_email: e.target.email.value,
@@ -137,6 +138,7 @@ const CheckoutForm = ({ CloseAction, controller, Price,cart }) => {
               <form onSubmit={handleSubmit}>
                 <div className="inputFields">
                   <element.Input
+                  as="input"
                     id="NamePay"
                     defaultValue={`${userdata?.Firstname} ${userdata?.Lastname}`}
                     type="text"
@@ -148,6 +150,7 @@ const CheckoutForm = ({ CloseAction, controller, Price,cart }) => {
 
                 <div className="inputFields">
                   <element.Input
+                         as="input"
                     id="EmailPay"
                     defaultValue={userdata?.Email}
                     type="email"
@@ -159,6 +162,7 @@ const CheckoutForm = ({ CloseAction, controller, Price,cart }) => {
                 <div className="inputFields">
                   <element.Input
                     id="AdressPay"
+                    as="input"
                     defaultValue={`${userdata?.Adress}`}
                     type="text"
                     name="adress"

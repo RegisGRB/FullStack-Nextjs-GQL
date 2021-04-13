@@ -10,6 +10,7 @@ import {
   HttpLink,
   gql,
 } from "@apollo/client";
+import db from "../config/db.config";
 import Cookies from "universal-cookie";
 const authContext = createContext();
 // +-------------------------------------------------------------------+
@@ -45,13 +46,19 @@ const useProvideAuth = () => {
   const cookies = new Cookies();
   let x = null;
   let w = [];
+  let z = [];
+
   if (cookies.get("token")) x = cookies.get("token");
   if (cookies.get("cart")) w = cookies.get("cart");
+  if (cookies.get("wishlist")) z = cookies.get("wishlist");
+
   const [authToken, setAuthToken] = useState(x);
 
   const [userdata, setuserdata] = useState(null);
 
   const [Cart, setCart] = useState(w);
+
+  const [wishlist, setwishlist] = useState(z);
 
   const getAuthHeaders = () => {
     if (authToken != null) return null;
@@ -64,7 +71,7 @@ const useProvideAuth = () => {
   const createApolloClient = () => {
     // -------------------------- CREATE APOLLO
     const link = new HttpLink({
-      uri: "http://localhost:3033/graphql",
+      uri: `${process.env.NEXT_PUBLIC_GAID}/graphql`,
       headers: getAuthHeaders(),
     });
 
@@ -86,15 +93,14 @@ const useProvideAuth = () => {
         variables: { id: x.id },
       });
 
-
       if (result?.data?.user) {
         setuserdata(result.data.user);
       }
     }
   };
-  React.useEffect(()=>{
+  React.useEffect(() => {
     Getme();
-  },[authToken])
+  }, [authToken]);
   const signIn = async ({ Email, Password }) => {
     // -------------------------- SIGN IN
 
@@ -105,10 +111,9 @@ const useProvideAuth = () => {
         variables: { Email: Email, Password: Password },
       });
 
-
       if (result?.data?.login) {
         const cookies = new Cookies();
-        cookies.set("token", result.data.login);
+        cookies.set("token", result.data.login, { path: "/" });
         setAuthToken(result.data.login);
       }
     } catch (error) {
@@ -138,7 +143,6 @@ const useProvideAuth = () => {
         },
       });
 
-
       if (result?.data?.signup) {
         setAuthToken(result.data.signup);
       }
@@ -153,13 +157,44 @@ const useProvideAuth = () => {
   const signOut = () => {
     // -------------------------- SIGN OUT
     const cookies = new Cookies();
-    cookies.remove("token");
-    cookies.remove("cart");
+    cookies.remove("token", { path: "/" });
+    cookies.remove("cart", { path: "/" });
+    cookies.remove("wishlist", { path: "/" });
     setAuthToken(null);
     setuserdata(null);
     setCart([]);
   };
-
+  const Togglewishlist = (id) => {
+    // -------------------------- ADD CART
+    const cookies = new Cookies();
+    if (wishlist != [] && cookies.get("wishlist")) {
+      let w = cookies.get("wishlist");
+      let z = w.indexOf(id);
+      console.log(z);
+      if (z != -1) {
+        w.splice(z, 1);
+      } else {
+        w.push(id);
+      }
+      cookies.remove("wishlist");
+      cookies.set("wishlist", w, { path: "/" });
+      setwishlist(w);
+    } else {
+      console.log("nop");
+      var p = [];
+      p.push(id);
+      cookies.set("wishlist", p, { path: "/" });
+      setwishlist(p);
+    }
+  };
+  const deletewishlist = () => {
+    // -------------------------- ADD CART
+    const cookies = new Cookies();
+    if (wishlist != [] && cookies.get("wishlist")) {
+      cookies.remove("wishlist");
+      setwishlist([]);
+    }
+  };
   const AddCart = (data) => {
     // -------------------------- ADD CART
     const cookies = new Cookies();
@@ -172,13 +207,13 @@ const useProvideAuth = () => {
       } else {
         w.push({ id: data.product.id, qty: 1 });
       }
-      cookies.remove("cart");
-      cookies.set("cart", w);
+      cookies.remove("cart", { path: "/" });
+      cookies.set("cart", w, { path: "/" });
       setCart(w);
     } else {
       var p = [];
       p.push({ id: data.product.id, qty: 1 });
-      cookies.set("cart", p);
+      cookies.set("cart", p, { path: "/" });
       setCart(p);
     }
   };
@@ -194,8 +229,8 @@ const useProvideAuth = () => {
       } else {
         w.splice(z, 1);
       }
-      cookies.remove("cart");
-      cookies.set("cart", w);
+      cookies.remove("cart", { path: "/" });
+      cookies.set("cart", w, { path: "/" });
       setCart(w);
     }
   };
@@ -203,7 +238,7 @@ const useProvideAuth = () => {
     // -------------------------- ADD CART
     const cookies = new Cookies();
     if (Cart != [] && cookies.get("cart")) {
-      cookies.remove("cart");
+      cookies.remove("cart", { path: "/" });
       setCart([]);
     }
   };
@@ -234,6 +269,9 @@ const useProvideAuth = () => {
     GetCookies,
     deleteCart,
     removeCart,
+    Togglewishlist,
+    deletewishlist,
+    wishlist,
     Cart,
     userdata,
     authToken,

@@ -132,6 +132,15 @@ const Account = () => {
                 Order History
               </span>
             </li>
+            <li>
+              <span
+                onClick={() => {
+                  router.push("/Wishlist");
+                }}
+              >
+                Wishlist
+              </span>
+            </li>
           </RouteAccount>
           <Form Fields={Fields} Action={Update}></Form>
           <SettingsContainer>
@@ -176,6 +185,7 @@ const RouteAccount = styled.ul`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  list-style-type:none;
   margin:60px;
   & li span{
     cursor:pointer;

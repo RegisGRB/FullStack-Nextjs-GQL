@@ -6,14 +6,14 @@ import { UserProviderContext } from "./UserContext";
 import { AuthProvider } from "./AuthContext";
 const ContextContainer = ({ children, ...props }) => {
   return (
-    <AuthProvider>
-      <UserProviderContext>
-        <ThemeProviderContext>
-          <GlobalStyle />
-          <LangProvider>{children}</LangProvider>
-        </ThemeProviderContext>
-      </UserProviderContext>
-    </AuthProvider>
+    <UserProviderContext>
+      <ThemeProviderContext>
+        <GlobalStyle />
+        <LangProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </LangProvider>
+      </ThemeProviderContext>
+    </UserProviderContext>
   );
 };
 const GlobalStyle = createGlobalStyle`

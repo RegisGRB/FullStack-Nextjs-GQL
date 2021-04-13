@@ -5,7 +5,6 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import Navbar from "../components/elements/NavBar";
 import { AnimatePresence, motion } from "framer-motion";
 
-
 function MyApp({ Component, pageProps }) {
   return (
 
