@@ -1,5 +1,5 @@
 import styled from "styled-components";
-const GRIDCARD = styled.div`
+const GridCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -45,4 +45,4 @@ const GRIDCARD = styled.div`
   }
 `;
 
-export default GRIDCARD
+export default GridCard
