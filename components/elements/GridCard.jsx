@@ -8,16 +8,14 @@ const GRIDCard = styled.div`
   font-size: 3rem;
   color: #fff;
   position: relative;
-  box-shadow: rgba(3, 8, 20, 0.1) 0px 0.15rem 0.5rem,
-    rgba(2, 8, 20, 0.1) 0px 0.075rem 0.175rem;
+  box-shadow: rgba(3, 8, 20, 0.1) 0px 0.15rem 0.5rem, rgba(2, 8, 20, 0.1) 0px 0.075rem 0.175rem;
   height: 100%;
   width: 100%;
   cursor: pointer;
   border-radius: 4px;
   transition: all 500ms;
   overflow: hidden;
-  background: ${(props) =>
-    props.background ? `url(${props.background})` : "#353535"};
+  background: ${(props) => props.background ? `url(${props.background})` : "#353535"};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
