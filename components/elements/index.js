@@ -1,5 +1,5 @@
 import GRID from "./Grid";
-import GRIDCard from "./GRIDCard";
+import GRIDCard from "./GridCard";
 import {Flex ,FlexLeft,FlexRight} from "./Flex";
 import Button from "./Button";
 import Container from "./Container";
