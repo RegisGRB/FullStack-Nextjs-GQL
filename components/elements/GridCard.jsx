@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 const GRIDCard = styled.div`
   display: flex;
   flex-direction: column;
