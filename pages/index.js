@@ -30,17 +30,6 @@ const Index = () => {
     CategorieQuery.default.Categories
   );
 
-  // React.useEffect(() => {
-  //   if (CategSelected != "all") {
-  //     let x = Categories?.data?.categories.filter((e) => {
-  //       console.log(e.id, CategSelected);
-  //       return e.id === CategSelected;
-  //     });
-  //     setDataCard(x[0].Products);
-  //   } else if (CategSelected == "all" ) {
-
-  //   }
-  // }, [CategSelected]);
   React.useEffect(() => {
     GetProductsFilter();
     GetCategories();

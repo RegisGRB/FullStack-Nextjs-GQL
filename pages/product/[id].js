@@ -27,7 +27,6 @@ const product = () => {
     if (id && !data) {
       getProduct();
     }
-    console.log(wishlist)
   }, [id]);
   //   getProduct(id);
   return (

@@ -2,18 +2,15 @@ import React from "react";
 import { createGlobalStyle } from "styled-components";
 import { LangProvider } from "./LangContext";
 import { ThemeProviderContext } from "./ThemeContext";
-import { UserProviderContext } from "./UserContext";
 import { AuthProvider } from "./AuthContext";
 const ContextContainer = ({ children, ...props }) => {
   return (
-    <UserProviderContext>
       <ThemeProviderContext>
         <GlobalStyle />
         <LangProvider>
           <AuthProvider>{children}</AuthProvider>
         </LangProvider>
       </ThemeProviderContext>
-    </UserProviderContext>
   );
 };
 const GlobalStyle = createGlobalStyle`

@@ -22,6 +22,17 @@ const Product = gql`
     }
   }
 `;
+const ProductsByArray = gql`
+  query productsByArray($array: [ID]) {
+    productsByArray(array: $array) {
+      id
+      Title
+      Price
+      Description
+      Url
+    }
+  }
+`;
 const ProductsFilter = gql`
   query productsFilter($value: String!) {
     productsFilter(value: $value) {
@@ -98,4 +109,5 @@ export default {
   DeleteProduct,
   ProductUpdate,
   CreateProduct,
+  ProductsByArray
 };

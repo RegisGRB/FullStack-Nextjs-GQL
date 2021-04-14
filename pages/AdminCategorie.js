@@ -76,7 +76,6 @@ const AdminCategorie = () => {
   }, []);
   React.useEffect(() => {
     if (data) {
-      console.log(data)
       setDataCard(data?.categories);
     }
   });

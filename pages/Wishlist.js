@@ -1,45 +1,25 @@
 import React from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { gql, useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import * as elements from "../components/elements";
 import * as Product from "../Apollo/Query/Product";
 import { motion } from "framer-motion";
-import Cookies from "universal-cookie";
 import { useAuth } from "../context/AuthContext";
 const Wishlist = () => {
-  const { wishlist, Togglewishlist } = useAuth();
+  const { wishlist, AddCart, Togglewishlist } = useAuth();
   const [DataCard, setDataCard] = React.useState([]);
-  const [idx, setidx] = React.useState("");
-  const [GetProduct, { data }] = useLazyQuery(Product.default.Product, {
+  const [GetProduct, { data }] = useLazyQuery(Product.default.ProductsByArray, {
     variables: {
-      id: idx,
+      array: wishlist,
     },
   });
-
-  // const getProduct = async (id) => {
-  //   const result = await GetProduct({
-  //     variables: {
-  //       id: id,
-  //     },
-  //   });
-  // };
-
   React.useEffect(() => {
     GetProduct();
   }, []);
   React.useEffect(() => {
-    console.log(wishlist);
-    wishlist.forEach((element) => {
-      setidx(element);
-    });
-  }, []);
-  React.useEffect(() => {
     if (data) {
-      let w = DataCard;
-      w.push(data.product);
-      setDataCard(w);
-      console.log(data);
+      setDataCard(data.productsByArray);
     }
   }, [data]);
   return (
@@ -60,14 +40,17 @@ const Wishlist = () => {
               size={i == 0 || i / 5 == 1 ? 2 : 1}
               background={e.Url}
             >
-              <elements.Button
+              <CardTitle>{e.Title}</CardTitle>
+              <CardPrice>{e.Price}€</CardPrice>
+              <WishlistButton
                 onClick={() => Togglewishlist(e.id)}
                 red={wishlist.includes(e.id)}
               >
                 wishlist
-              </elements.Button>
-              <CardTitle>{e.Title}</CardTitle>
-              <CardPrice>{e.Price}€</CardPrice>
+              </WishlistButton>
+              <CartButton as="a" href={`product/${e.id}`}>
+                Voir
+              </CartButton>
             </EcommerceCard>
           );
         })}
@@ -99,8 +82,20 @@ const Container = styled.div`
   background: ${(props) => props.theme.colors.secondary};
   color: ${(props) => props.theme.colors.primary};
 `;
-const SearchContainer = styled.div`
-  display: flex;
+const WishlistButton = styled(elements.Button)`
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 999;
+  pointer-events: all;
+`;
+const CartButton = styled(elements.Button)`
+  position: absolute;
+  bottom: 30px;
+  z-index: 999;
+  left: 30px;
+  font-size:1rem;
+  pointer-events: all;
 `;
 const SelectCateg = styled.select`
   margin: 30px;

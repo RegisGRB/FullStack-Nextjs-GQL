@@ -2,13 +2,12 @@ import React from "react";
 
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { gql, useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import { useAuth, SignForm } from "../context/AuthContext";
+import { useMutation } from "@apollo/client";
+import { useAuth } from "../context/AuthContext";
 import Form from "../components/ui/Form/Form";
 import * as UserQuery from "../Apollo/Query/User";
 import Notification from "../components/ui/Notification/Notification";
 import ProtectedNext from "../components/ui/ProtectedNext/ProtectedNext";
-import Settings from "../components/Settings/Settings";
 import { useRouter } from "next/router";
 const Account = () => {
   const { Getme, signOut, userdata, GetCookies } = useAuth();
@@ -143,30 +142,14 @@ const Account = () => {
             </li>
           </RouteAccount>
           <Form Fields={Fields} Action={Update}></Form>
-          <SettingsContainer>
-            <Settings></Settings>
-          </SettingsContainer>
+      
         </FormContainer>
       </Container>
     </ProtectedNext>
   );
 };
 const transition = { duration: 0.6, ease: [0.6, 0.01, -0.05, 0.9] };
-const variantsUp = {
-  show: { y: 0, opacity: 1, transition, delay: 0.2 },
-  hidden: { y: 1000, opacity: 0, transition },
-  key: "up",
-};
-const variantsIn = {
-  show: { y: 0, opacity: 1, transition, delay: 0.2 },
-  hidden: { y: -1000, opacity: 0, transition },
-  key: "down",
-};
-const variantsIdd = {
-  show: { y: 0, opacity: 1, transition, delay: 0.2 },
-  hidden: { y: -1000, opacity: 0, transition },
-  key: "downx",
-};
+
 
 const Container = styled.div`
   width: 100vw;

@@ -170,17 +170,15 @@ const useProvideAuth = () => {
     if (wishlist != [] && cookies.get("wishlist")) {
       let w = cookies.get("wishlist");
       let z = w.indexOf(id);
-      console.log(z);
       if (z != -1) {
         w.splice(z, 1);
       } else {
         w.push(id);
       }
-      cookies.remove("wishlist");
+      cookies.remove("wishlist",{ path: "/" });
       cookies.set("wishlist", w, { path: "/" });
       setwishlist(w);
     } else {
-      console.log("nop");
       var p = [];
       p.push(id);
       cookies.set("wishlist", p, { path: "/" });
@@ -191,7 +189,7 @@ const useProvideAuth = () => {
     // -------------------------- ADD CART
     const cookies = new Cookies();
     if (wishlist != [] && cookies.get("wishlist")) {
-      cookies.remove("wishlist");
+      cookies.remove("wishlist",{ path: "/" });
       setwishlist([]);
     }
   };

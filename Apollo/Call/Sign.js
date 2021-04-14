@@ -44,6 +44,5 @@ React.useEffect(() => {
     Auth(Logdata.data.login);
   }
   if (Regdata.data && Regdata.data.signup) {
-    console.log(Regdata);
   }
 }, [Logdata]);
